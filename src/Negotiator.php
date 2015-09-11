@@ -10,9 +10,6 @@ class Negotiator {
     // @var $negotiator The object that performs the negotiation.
     protected $negotiator;
 
-    // @var $mediaType The object that represents a negotiated media type.
-    protected $mediaType;
-
     // @var string[] $priorities An array of acceptable media types.
     protected $priorities;
 
@@ -27,7 +24,6 @@ class Negotiator {
     public function __construct($priorities = [], $supplyDefault = FALSE) {
         // Create the negotiator object.
         $this->negotiator = new \Negotiation\Negotiator();
-        $this->mediaType = NULL;
 
         // Set the priorities array and supply default boolean.
         $this->priorities = $priorities;
@@ -45,6 +41,9 @@ class Negotiator {
      * media type and the accept header is empty, it will negotiate a match
      * against the first given priority.
      *
+     * The object that represents the negotiated media type will be stored in a
+     * property on the request object.
+     *
      * @param \Psr\Http\Message\ServerRequestInterface $request A PSR-7 request object.
      * @param \Psr\Http\Message\ResponseInterface $response A PSR-7 response object.
      * @param callable $next The next callable in the middleware chain.
@@ -53,25 +52,25 @@ class Negotiator {
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next) {
         // Negotiate a media type for the given request.
-        $this->negotiateMediaType($request);
+        $mediaType = $this->negotiateMediaType($request);
 
         // If an appropriate media type couldn't be determined, respond with a 406.
-        if (empty($this->mediaType)) {
+        if (empty($mediaType)) {
             return $response->withStatus(406);
         }
 
         // Store the negotiated media type in the request object.
-        $request = $request->withAttribute('mediaType', $this->mediaType);
+        $request = $request->withAttribute('mediaType', $mediaType);
 
         // Call the next middleware.
         return $next($request, $response);
     }
 
     /**
-     * Negotiates a media type for the request and stores it in a property on
-     * the middleware object.
+     * Negotiates a media type for the request.
      *
      * @param \Psr\Http\Message\RequestInterface $request A PSR-7 request object.
+     * @return \Negotiation\Accept|false The object that represents a negotiated media type.
      */
     public function negotiateMediaType(ServerRequestInterface $request) {
         // Look for an accept header in the request object.
@@ -82,13 +81,16 @@ class Negotiator {
             // If a default should be supplied and the priorities array was set...
             if ($this->supplyDefault && !empty($this->priorities)) {
                 // Supply a default media type from the priorities array.
-                $this->mediaType = new Accept(reset($this->priorities));
+                return new Accept(reset($this->priorities));
             }
         }
         else {
             // Determine the best media type based on the accept header and the
             // server's priorities.
-            $this->mediaType = $this->negotiator->getBest($acceptHeader, $this->priorities);
+            return $this->negotiator->getBest($acceptHeader, $this->priorities);
         }
+
+        // if negotiation fails
+        return false;
     }
 }
