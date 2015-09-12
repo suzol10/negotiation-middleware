@@ -2,6 +2,7 @@
 
 namespace NegotiationMiddleware;
 
+use Negotiation\Negotiator as MediaTypeNegotiator;
 use Negotiation\Accept;
 use Slim\Http\Request;
 use Psr\Http\Message\ResponseInterface;
@@ -23,7 +24,7 @@ class Negotiator {
      */
     public function __construct($priorities = [], $supplyDefault = FALSE) {
         // Create the negotiator object.
-        $this->negotiator = new \Negotiation\Negotiator();
+        $this->negotiator = new MediaTypeNegotiator;
 
         // Set the priorities array and supply default boolean.
         $this->priorities = $priorities;
