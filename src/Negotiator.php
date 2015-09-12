@@ -61,7 +61,7 @@ class Negotiator {
         }
 
         // Store the negotiated media type in the request object.
-        $request = $request->withAttribute('mediaType', $this->mediaType);
+        $request = $request->withAttribute('negotiation.mediaType', $this->mediaType);
 
         // Call the next middleware.
         return $next($request, $response);
