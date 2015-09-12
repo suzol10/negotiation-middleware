@@ -70,7 +70,7 @@ class Negotiator {
      * Negotiates a media type for the request.
      *
      * @param \Psr\Http\Message\RequestInterface $request A PSR-7 request object.
-     * @return \Negotiation\Accept|false The object that represents a negotiated media type.
+     * @return \Negotiation\Accept|null The object that represents a negotiated media type.
      */
     public function negotiateMediaType(ServerRequestInterface $request) {
         // Look for an accept header in the request object.
@@ -91,6 +91,6 @@ class Negotiator {
         }
 
         // if negotiation fails
-        return false;
+        return null;
     }
 }
