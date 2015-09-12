@@ -8,14 +8,14 @@ use Psr\Http\Message\ResponseInterface;
 
 class Negotiator {
     // @var $negotiator The object that performs the negotiation.
-    protected $negotiator;
+    private $negotiator;
 
     // @var string[] $priorities An array of acceptable media types.
-    protected $priorities;
+    private $priorities;
 
     // @var bool $supplyDefault Boolean indicating whether or not to supply a
     // default media type if negotiation cannot determine a match.
-    protected $supplyDefault;
+    private $supplyDefault;
 
     /**
      * @param string[] $priorities An array of acceptable media types.
