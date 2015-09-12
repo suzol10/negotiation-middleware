@@ -1,0 +1,47 @@
+<?php
+
+use NegotiationMiddleware\Negotiator;
+use Slim\Http\Request;
+use Psr\Http\Message\ResponseInterface;
+
+class NegotiatorTest extends PHPUnit_Framework_TestCase {
+
+    private $request;
+    private $response;
+    private $nextMiddleware;
+
+    public function setUp() {
+        $this->request = $this->getMockBuilder('Slim\Http\Request')
+                        ->disableAutoload()
+                        ->disableOriginalConstructor()
+                        ->getMock();
+
+        $this->response = $this->getMockBuilder('Psr\Http\Message\ResponseInterface')
+                         ->disableOriginalConstructor()
+                         ->getMock();
+        $this->nextMiddleware = function($req, $res, $next) {
+            return $res;
+        };
+    }
+
+    public function testSupplyDefaultButNoPriorities() {
+        $c = new ReflectionClass('Slim\Http\Request');
+        $p = $c->getProperty('method');
+        $p->setAccessible(true);
+        unset($this->request->method);
+
+        $this->request->expects($this->any())
+                      ->method('getHeaderLine')
+                      //->with($this->equalTo('accept'))
+                      ->willReturn('application/json');
+
+
+        echo $this->request->getHeaderLine('asdf');
+
+        $negotiator = new Negotiator([], TRUE);
+        $result = $negotiator($this->request, $this->response, $this->nextMiddleware);
+
+        $this->assertSame(406, $result->getStatus());
+    }
+
+}
