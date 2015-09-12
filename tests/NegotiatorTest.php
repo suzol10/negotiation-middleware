@@ -65,7 +65,7 @@ class NegotiatorTest extends PHPUnit_Framework_TestCase {
         $this->request->expects($this->once())
                       ->method('withAttribute')
                       ->with(
-                            $this->equalTo('mediaType'),
+                            $this->equalTo('negotiation.mediaType'),
                             $this->callback(function($accept) use ($mediaType) {
                                 return $accept->getValue() === $mediaType;
                             })
