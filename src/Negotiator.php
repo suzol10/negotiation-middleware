@@ -3,7 +3,7 @@
 namespace NegotiationMiddleware;
 
 use Negotiation\Accept;
-use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Request;
 use Psr\Http\Message\ResponseInterface;
 
 class Negotiator {
@@ -44,13 +44,13 @@ class Negotiator {
      * The object that represents the negotiated media type will be stored in a
      * property on the request object.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request A PSR-7 request object.
+     * @param \Slim\Http\Request $request A Slim request object.
      * @param \Psr\Http\Message\ResponseInterface $response A PSR-7 response object.
      * @param callable $next The next callable in the middleware chain.
      *
      * @return \Psr\Http\Message\ResponseInterface The update response object.
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next) {
+    public function __invoke(Request $request, ResponseInterface $response, callable $next) {
         // Negotiate a media type for the given request.
         $mediaType = $this->negotiateMediaType($request);
 
@@ -69,10 +69,10 @@ class Negotiator {
     /**
      * Negotiates a media type for the request.
      *
-     * @param \Psr\Http\Message\RequestInterface $request A PSR-7 request object.
+     * @param \Slim\Http\Request $request A Slim request object.
      * @return \Negotiation\Accept|null The object that represents a negotiated media type.
      */
-    public function negotiateMediaType(ServerRequestInterface $request) {
+    public function negotiateMediaType(Request $request) {
         // Look for an accept header in the request object.
         $acceptHeader = $request->getHeaderLine('accept');
 
