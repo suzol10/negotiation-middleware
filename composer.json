@@ -23,7 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "NegotiationMiddleware\\": "src/"
+            "Gofabian\\Middleware\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Gofabian\\Middleware\\": "tests/"
         }
     }
 }

@@ -1,97 +1,111 @@
 <?php
+namespace Gofabian\Middleware;
 
-namespace NegotiationMiddleware;
-
-use Negotiation\Negotiator as MediaTypeNegotiator;
-use Negotiation\Accept;
-use Slim\Http\Request;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Negotiation\AbstractNegotiator;
+use Negotiation\BaseAccept;
+use Gofabian\Middleware\Negotiator\Configuration;
+use Gofabian\Middleware\Negotiator\ConfigurationFactory;
+use Gofabian\Middleware\Negotiator\HeaderNegotiator;
+use Gofabian\Middleware\Negotiator\AcceptProvider;
+use Gofabian\Middleware\Negotiator\NegotiationException;
 
-class Negotiator {
-    // @var $negotiator The object that performs the negotiation.
-    private $negotiator;
+/**
+ * The class Negotiator is a middleware service originally written for the Slim
+ * framework.
+ *
+ * @see https://github.com/slimphp/Slim/tree/3.x
+ */
+class Negotiator
+{
+    private $headerNegotiator;
+    private $supplyDefaults;
+    private $attributeName;
 
-    // @var string[] $priorities An array of acceptable media types.
-    private $priorities;
-
-    // @var bool $supplyDefault Boolean indicating whether or not to supply a
-    // default media type if negotiation cannot determine a match.
-    private $supplyDefault;
+    private $mediaTypeConf;
+    private $languageConf;
+    private $encodingConf;
+    private $charsetConf;
 
     /**
-     * @param string[] $priorities An array of acceptable media types.
-     * @param bool $supplyDefault
+     * Create a new negotiator middleware that negotiates media type, language,
+     * encoding and charset for the response.
      */
-    public function __construct($priorities = [], $supplyDefault = FALSE) {
-        // Create the negotiator object.
-        $this->negotiator = new MediaTypeNegotiator;
+    public function __construct(
+        array $priorities,
+        $supplyDefaults = true,
+        $attributeName = 'negotiation'
+    ) {
+        $this->headerNegotiator = new HeaderNegotiator;
+        $this->supplyDefaults = $supplyDefaults;
+        $this->attributeName = $attributeName;
 
-        // Set the priorities array and supply default boolean.
-        $this->priorities = $priorities;
-        $this->supplyDefault = $supplyDefault;
+        $this->mediaTypeConf = $this->createConfiguration($priorities, 'accept');
+        $this->languageConf = $this->createConfiguration($priorities, 'accept-language');
+        $this->encodingConf = $this->createConfiguration($priorities, 'accept-encoding');
+        $this->charsetConf = $this->createConfiguration($priorities, 'accept-charset');
     }
 
-    /**
-     * Performs content negotiation for the request.
-     *
-     * Content negotiation uses willdurand/negotiation to determine if a request
-     * specifies an acceptable media type and, if not, responds immediately with
-     * a 406 error (Not Acceptable).
-     *
-     * If the negotiator middleware has been instructed to supply a default
-     * media type and the accept header is empty, it will negotiate a match
-     * against the first given priority.
-     *
-     * The object that represents the negotiated media type will be stored in a
-     * property on the request object.
-     *
-     * @param \Slim\Http\Request $request A Slim request object.
-     * @param \Psr\Http\Message\ResponseInterface $response A PSR-7 response object.
-     * @param callable $next The next callable in the middleware chain.
-     *
-     * @return \Psr\Http\Message\ResponseInterface The update response object.
-     */
-    public function __invoke(Request $request, ResponseInterface $response, callable $next) {
-        // Negotiate a media type for the given request.
-        $mediaType = $this->negotiateMediaType($request);
+    private function createConfiguration($allPriorities, $headerName)
+    {
+        if (!empty($allPriorities[$headerName])) {
+            $priorities = $allPriorities[$headerName];
+            return ConfigurationFactory::create($headerName, $priorities);
+        }
+        return null;
+    }
 
-        // If an appropriate media type couldn't be determined, respond with a 406.
-        if (empty($mediaType)) {
+
+    /**
+     *
+     */
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    {
+        try {
+            $acceptProvider = $this->negotiateRequest($request);
+        } catch (NegotiationException $e) {
             return $response->withStatus(406);
         }
 
-        // Store the negotiated media type in the request object.
-        $request = $request->withAttribute('negotiation.mediaType', $mediaType);
-
-        // Call the next middleware.
+        $request = $request->withAttribute($this->attributeName, $acceptProvider);
         return $next($request, $response);
     }
 
     /**
-     * Negotiates a media type for the request.
+     * Negotiate the PSR-7 request.
      *
-     * @param \Slim\Http\Request $request A Slim request object.
-     * @return \Negotiation\Accept|null The object that represents a negotiated media type.
+     * @param $request  ServerRequestInterface  the PSR-7 request
+     * @return          AcceptProvider          the negotiation result
+     * @throws          NegotiationException    negotiation failed
      */
-    public function negotiateMediaType(Request $request) {
-        // Look for an accept header in the request object.
-        $acceptHeader = $request->getHeaderLine('accept');
+    private function negotiateRequest(ServerRequestInterface $request)
+    {
+        $mediaType = $this->negotiateHeader($request, $this->mediaTypeConf);
+        $language = $this->negotiateHeader($request, $this->languageConf);
+        $encoding = $this->negotiateHeader($request, $this->encodingConf);
+        $charset = $this->negotiateHeader($request, $this->charsetConf);
 
-        // If the request did not include an accept header...
-        if (empty($acceptHeader)) {
-            // If a default should be supplied and the priorities array was set...
-            if ($this->supplyDefault && !empty($this->priorities)) {
-                // Supply a default media type from the priorities array.
-                return new Accept(reset($this->priorities));
-            }
-        }
-        else {
-            // Determine the best media type based on the accept header and the
-            // server's priorities.
-            return $this->negotiator->getBest($acceptHeader, $this->priorities);
-        }
-
-        // if negotiation fails
-        return null;
+        return new AcceptProvider($mediaType, $language, $encoding, $charset);
     }
+
+    /**
+     * Negotiate the header configured in <code>$conf</code>.
+     *
+     * Returns <code>null</code> if the configuration is <code>null</code>.
+     *
+     * @param $request  ServerRequestInterface  the PSR-7 request
+     * @param $conf     Configuration|null      the header configuration
+     * @return          BaseAccept|null         the negotiation result
+     * @throws          NegotiationException    negotiation failed
+     */
+    private function negotiateHeader(ServerRequestInterface $request, Configuration $conf = null)
+    {
+        if (is_null($conf)) {
+            // no negotiation configuration
+            return null;
+        }
+        return $this->headerNegotiator->negotiate($request, $conf, $this->supplyDefaults);
+    }
+
 }
