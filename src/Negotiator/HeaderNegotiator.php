@@ -6,6 +6,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Negotiation\AbstractNegotiator;
 use Negotiation\BaseAccept;
 
+/**
+ * The HeaderNegotiator uses a configuration container to negotiate a PSR-7
+ * request object.
+ */
 class HeaderNegotiator
 {
 
@@ -75,7 +79,7 @@ class HeaderNegotiator
             // returns negotiation result or null
             return $negotiator->getBest($headerLine, $priorities);
         } catch(RuntimeException $e) {
-            new NegotiationException('negotiator error', $e);
+            throw new NegotiationException('negotiator error', $e);
         }
     }
 
