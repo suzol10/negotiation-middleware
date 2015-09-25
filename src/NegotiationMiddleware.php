@@ -1,15 +1,10 @@
 <?php
-namespace Gofabian\Middleware;
+namespace Gofabian\Negotiation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Negotiation\AbstractNegotiator;
 use Negotiation\BaseAccept;
-use Gofabian\Middleware\Negotiator\Configuration;
-use Gofabian\Middleware\Negotiator\ConfigurationFactory;
-use Gofabian\Middleware\Negotiator\HeaderNegotiator;
-use Gofabian\Middleware\Negotiator\AcceptProvider;
-use Gofabian\Middleware\Negotiator\NegotiationException;
 
 /**
  * The class Negotiator is a middleware service originally written for the Slim
@@ -17,7 +12,7 @@ use Gofabian\Middleware\Negotiator\NegotiationException;
  *
  * @see https://github.com/slimphp/Slim/tree/3.x
  */
-class Negotiator
+class NegotiationMiddleware
 {
     private $headerNegotiator;
     private $supplyDefaults;

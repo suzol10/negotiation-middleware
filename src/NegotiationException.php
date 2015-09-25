@@ -1,8 +1,8 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
-use RuntimeException;
 use Exception;
+use RuntimeException;
 
 class NegotiationException extends RuntimeException
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;

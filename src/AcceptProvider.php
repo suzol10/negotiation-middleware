@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
 use Negotiation\Accept;
 use Negotiation\AcceptLanguage;

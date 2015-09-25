@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
 use RuntimeException;
 use Psr\Http\Message\ServerRequestInterface;

@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware;
+namespace Gofabian\Negotiation;
 
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ServerRequestInterface;
@@ -8,9 +8,8 @@ use Negotiation\Accept;
 use Negotiation\AcceptLanguage;
 use Negotiation\AcceptEncoding;
 use Negotiation\AcceptCharset;
-use Gofabian\Middleware\Negotiator\TestRequest;
 
-class NegotiatorTest extends PHPUnit_Framework_TestCase
+class NegotiationMiddlewareTest extends PHPUnit_Framework_TestCase
 {
 
     private $request;
@@ -105,7 +104,7 @@ class NegotiatorTest extends PHPUnit_Framework_TestCase
 
     private function invokeNegotiator($mediaType, $language, $encoding, $charset, $supplyDefaults = true)
     {
-        $negotiator = new Negotiator(
+        $negotiator = new NegotiationMiddleware(
             [
                 'accept' => $mediaType,
                 'accept-language' => $language,

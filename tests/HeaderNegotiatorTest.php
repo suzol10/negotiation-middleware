@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
 use RuntimeException;
 use PHPUnit_Framework_TestCase;
@@ -20,7 +20,7 @@ class HeaderNegotiatorTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * @expectedException  \Gofabian\Middleware\Negotiator\NegotiationException
+     * @expectedException  \Gofabian\Negotiation\NegotiationException
      */
     public function testEmptyHeaderThrowsException()
     {
@@ -51,7 +51,7 @@ class HeaderNegotiatorTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException           \Gofabian\Middleware\Negotiator\NegotiationException
+     * @expectedException           \Gofabian\Negotiation\NegotiationException
      * @expectedExceptionMessage    negotiator error
      */
     public function testNegotiationError()

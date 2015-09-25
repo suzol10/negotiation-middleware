@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
 use PHPUnit_Framework_TestCase;
 use Negotiation\Accept;

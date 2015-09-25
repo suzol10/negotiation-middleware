@@ -1,5 +1,5 @@
 <?php
-namespace Gofabian\Middleware\Negotiator;
+namespace Gofabian\Negotiation;
 
 use InvalidArgumentException;
 use Negotiation\AbstractNegotiator;
