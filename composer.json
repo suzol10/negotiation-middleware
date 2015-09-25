@@ -1,17 +1,20 @@
 {
-    "name": "rszrama/negotiation-middleware",
-    "type": "library",
-    "description": "Content negotiation middleware for PHP applications using a request, response, and next callable signature.",
-    "keywords": ["negotiation", "middleware", "slim"],
-    "homepage": "https://github.com/rszrama/negotiation-middleware",
+    "name": "gofabian/negotiation-middleware",
+    "description": "PHP negotiation middleware for accept headers of PSR-7 requests. Uses the negotiation library willdurand/negotiation.",
+    "keywords": ["PSR-7", "middleware", "negotiation", "slim"],
+    "homepage": "https://github.com/gofabian/negotiation-middleware",
     "license": "MIT",
+
     "authors": [
         {
-            "name": "Ryan Szrama",
-            "email": "ryan.szrama@gmail.com",
-            "homepage": "http://ryanszrama.com/"
+            "name": "Fabian Iffländer",
+            "homepage": "http://gofabian.de/"
         }
     ],
+    "support": {
+        "issues": "https://github.com/gofabian/negotiation-middleware/issues"
+    },
+
     "require": {
         "php": ">=5.4.0",
         "psr/http-message": "1.0",
@@ -21,8 +24,9 @@
         "phpunit/phpunit": "^4.8"
     },
     "suggest": {
-        "slim/slim": "This middleware is compatible to Slim 3.x"
+        "slim/slim": "The negotiation middleware is compatible to Slim 3.x"
     },
+
     "autoload": {
         "psr-4": {
             "Gofabian\\Negotiation\\": "src/"
