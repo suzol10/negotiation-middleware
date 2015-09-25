@@ -6,7 +6,7 @@ use Negotiation\AbstractNegotiator;
 use Negotiation\BaseAccept;
 
 /**
- * The class configuration contains a set of negotiation attributes. One
+ * The class Configuration contains a set of negotiation attributes. One
  * attribute set is sufficient for the negotiation of one particular accept
  * header (e. g. 'accept' or 'accept-language').
  */

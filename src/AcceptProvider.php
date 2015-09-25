@@ -20,6 +20,14 @@ class AcceptProvider {
     private $acceptEncoding;
     private $acceptCharset;
 
+    /**
+     * Create a new AcceptProvider that provides the given values.
+     *
+     * @param $acceptMediaType  Accept|null             the negotiated media type
+     * @param $acceptLanguage   AcceptLanguage|null     the negotiated language
+     * @param $acceptEncoding   AcceptEncoding|null     the negotiated encoding
+     * @param $acceptCharset    AcceptCharset|null      the negotiated charset
+     */
     public function __construct(Accept $acceptMediaType = null, AcceptLanguage $acceptLanguage = null,
         AcceptEncoding $acceptEncoding = null, AcceptCharset $acceptCharset = null) {
         $this->acceptMediaType = $acceptMediaType;
@@ -28,61 +36,65 @@ class AcceptProvider {
         $this->acceptCharset = $acceptCharset;
     }
 
+
     /**
-     * @return \Negotiation\Accept|null the accepted content type
+     * @return \Negotiation\Accept|null             the negotiated media type
      */
     public function getAccept() {
         return $this->acceptMediaType;
     }
 
     /**
-     * @return \Negotiation\Accept|null the accepted charset
-     */
-    public function getAcceptCharset() {
-        return $this->acceptCharset;
-    }
-
-    /**
-     * @return \Negotiation\Accept|null the accepted encoding
-     */
-    public function getAcceptEncoding() {
-        return $this->acceptEncoding;
-    }
-
-    /**
-     * @return \Negotiation\Accept|null the accepted language
+     * @return \Negotiation\AcceptLanguage|null     the negotiated language
      */
     public function getAcceptLanguage() {
         return $this->acceptLanguage;
     }
 
     /**
-     * @return \Negotiation\Accept|null the accepted content type
+     * @return \Negotiation\AcceptCharset|null      the negotiated charset
+     */
+    public function getAcceptCharset() {
+        return $this->acceptCharset;
+    }
+
+    /**
+     * @return \Negotiation\AcceptEncoding|null     the negotiated encoding
+     */
+    public function getAcceptEncoding() {
+        return $this->acceptEncoding;
+    }
+
+
+    /**
+     * @return string|null  the negotiated media type
      */
     public function getMediaType() {
         return $this->toText($this->acceptMediaType);
     }
 
     /**
-     * @return \Negotiation\Accept|null the accepted charset
+     * @return string|null  the negotiated language
+     */
+    public function getLanguage() {
+        return $this->toText($this->acceptLanguage);
+    }
+
+
+    /**
+     * @return string|null  the negotiated charset
      */
     public function getCharset() {
         return $this->toText($this->acceptCharset);
     }
 
     /**
-     * @return \Negotiation\Accept|null the accepted encoding
+     * @return string|null  the negotiated encoding
      */
     public function getEncoding() {
         return $this->toText($this->acceptEncoding);
     }
 
-    /**
-     * @return \Negotiation\Accept|null the accepted language
-     */
-    public function getLanguage() {
-        return $this->toText($this->acceptLanguage);
-    }
 
     private function toText($accept) {
         return empty($accept) ? '' : $accept->getValue();

@@ -7,10 +7,13 @@ use Negotiation\AbstractNegotiator;
 use Negotiation\BaseAccept;
 
 /**
- * The class Negotiator is a middleware service originally written for the Slim
- * framework.
+ * The NegotiationMiddleware negotiates media type, language, encoding and
+ * charset of a PSR-7 request. The negotiated values will be stored in an
+ * attribute of the PSR-7 request. If the negotiation fails the response will
+ * contain status 406 "Not Acceptable".
  *
- * @see https://github.com/slimphp/Slim/tree/3.x
+ * @see http://www.php-fig.org/psr/psr-7/
+ * @see https://github.com/willdurand/Negotiation
  */
 class NegotiationMiddleware
 {
@@ -18,14 +21,17 @@ class NegotiationMiddleware
     private $supplyDefaults;
     private $attributeName;
 
-    private $mediaTypeConf;
-    private $languageConf;
-    private $encodingConf;
-    private $charsetConf;
+    private $mediaTypeConfiguration;
+    private $languageConfiguration;
+    private $encodingConfiguration;
+    private $charsetConfiguration;
 
     /**
-     * Create a new negotiator middleware that negotiates media type, language,
-     * encoding and charset for the response.
+     * Create a new negotiation middleware.
+     *
+     * @param $priorities       array   lists of accepted values
+     * @param $supplyDefaults   bool    whether default values are supplied
+     * @param $attributeName    string  where to store the negotiation result
      */
     public function __construct(
         array $priorities,
@@ -36,10 +42,10 @@ class NegotiationMiddleware
         $this->supplyDefaults = $supplyDefaults;
         $this->attributeName = $attributeName;
 
-        $this->mediaTypeConf = $this->createConfiguration($priorities, 'accept');
-        $this->languageConf = $this->createConfiguration($priorities, 'accept-language');
-        $this->encodingConf = $this->createConfiguration($priorities, 'accept-encoding');
-        $this->charsetConf = $this->createConfiguration($priorities, 'accept-charset');
+        $this->mediaTypeConfiguration = $this->createConfiguration($priorities, 'accept');
+        $this->languageConfiguration = $this->createConfiguration($priorities, 'accept-language');
+        $this->encodingConfiguration = $this->createConfiguration($priorities, 'accept-encoding');
+        $this->charsetConfiguration = $this->createConfiguration($priorities, 'accept-charset');
     }
 
     private function createConfiguration($allPriorities, $headerName)
@@ -53,7 +59,13 @@ class NegotiationMiddleware
 
 
     /**
+     * Negotiate the 'accept' headers of the given PSR-7 request. Attach the
+     * negotiation result to the request or respond with 406 "Not Acceptable".
      *
+     * @param $request      ServerRequestInterface  PSR-7 request (with accept headers)
+     * @param $response     ResponseInterface       PSR-7 response
+     * @param $next         callable                the next middleware
+     * @return              ResponseInterface       PSR-7 response
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
     {
@@ -76,10 +88,10 @@ class NegotiationMiddleware
      */
     private function negotiateRequest(ServerRequestInterface $request)
     {
-        $mediaType = $this->negotiateHeader($request, $this->mediaTypeConf);
-        $language = $this->negotiateHeader($request, $this->languageConf);
-        $encoding = $this->negotiateHeader($request, $this->encodingConf);
-        $charset = $this->negotiateHeader($request, $this->charsetConf);
+        $mediaType = $this->negotiateHeader($request, $this->mediaTypeConfiguration);
+        $language = $this->negotiateHeader($request, $this->languageConfiguration);
+        $encoding = $this->negotiateHeader($request, $this->encodingConfiguration);
+        $charset = $this->negotiateHeader($request, $this->charsetConfiguration);
 
         return new AcceptProvider($mediaType, $language, $encoding, $charset);
     }
