@@ -3,7 +3,6 @@ namespace Gofabian\Negotiation;
 
 use PHPUnit_Framework_TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Http\Response;
 use Negotiation\Accept;
 use Negotiation\AcceptLanguage;
 use Negotiation\AcceptEncoding;
@@ -18,7 +17,7 @@ class NegotiationMiddlewareTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->request = new TestRequest;
-        $this->response = new Response;
+        $this->response = new TestResponse;
     }
 
     public function testNegotiation()

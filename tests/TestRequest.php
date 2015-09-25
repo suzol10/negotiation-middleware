@@ -1,16 +1,11 @@
 <?php
 namespace Gofabian\Negotiation;
 
+use RuntimeException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UriInterface;
-use Psr\Http\Message\StreamInterface;
 
-/**
- * The class TestRequest is an implementation of the PSR-7 request interface.
- * Tests use this class because the request implementation of the Slim
- * framework has too many constructor dependencies.
- */
-class TestRequest implements ServerRequestInterface
+class TestRequest extends TestMessage implements ServerRequestInterface
 {
 
     private $attributes = [];
@@ -115,43 +110,6 @@ class TestRequest implements ServerRequestInterface
         $this->unsupported();
     }
     public function withUri(UriInterface $uri, $preserveHost = false)
-    {
-        $this->unsupported();
-    }
-
-    public function getProtocolVersion()
-    {
-        $this->unsupported();
-    }
-    public function withProtocolVersion($version)
-    {
-        $this->unsupported();
-    }
-    public function getHeaders()
-    {
-        $this->unsupported();
-    }
-    public function hasHeader($name)
-    {
-        $this->unsupported();
-    }
-    public function getHeader($name)
-    {
-        $this->unsupported();
-    }
-    public function withAddedHeader($name, $value)
-    {
-        $this->unsupported();
-    }
-    public function withoutHeader($name)
-    {
-        $this->unsupported();
-    }
-    public function getBody()
-    {
-        $this->unsupported();
-    }
-    public function withBody(StreamInterface $body)
     {
         $this->unsupported();
     }
