@@ -36,5 +36,9 @@
         "psr-4": {
             "Gofabian\\Negotiation\\": "tests/"
         }
+    },
+
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     }
 }
