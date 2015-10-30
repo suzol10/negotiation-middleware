@@ -5,12 +5,12 @@
 
 [link-travis]: https://travis-ci.org/gofabian/negotiation-middleware
 
-[ico-version]: https://img.shields.io/packagist/v/league/:package_name.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/gofabian/negotiation-middleware.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/thephpleague/:package_name/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/thephpleague/:package_name.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/thephpleague/:package_name.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/league/:package_name.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/gofabian/negotiation-middleware/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/gofabian/negotiation-middleware.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/gofabian/negotiation-middleware.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/gofabian/negotiation-middleware.svg?style=flat-square
 
 
 The **Negotiation Middleware** is a PHP library that negotiates accept headers of HTTP requests. The middleware chooses the most fitting options by looking at the accepted values of client and server. It supports the headers *accept*, *accept-language*, *accept-encoding* and *accept-charset*.
