@@ -17,6 +17,7 @@ use Negotiation\BaseAccept;
  */
 class NegotiationMiddleware
 {
+    private $configurationFactory;
     private $headerNegotiator;
     private $supplyDefaults;
     private $attributeName;
@@ -38,6 +39,7 @@ class NegotiationMiddleware
         $supplyDefaults = true,
         $attributeName = 'negotiation'
     ) {
+        $this->configurationFactory = new ConfigurationFactory;
         $this->headerNegotiator = new HeaderNegotiator;
         $this->supplyDefaults = $supplyDefaults;
         $this->attributeName = $attributeName;
@@ -52,7 +54,7 @@ class NegotiationMiddleware
     {
         if (!empty($allPriorities[$headerName])) {
             $priorities = $allPriorities[$headerName];
-            return ConfigurationFactory::create($headerName, $priorities);
+            return $this->configurationFactory->create($headerName, $priorities);
         }
         return null;
     }

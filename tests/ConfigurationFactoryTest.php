@@ -15,10 +15,16 @@ use Negotiation\AcceptCharset;
 class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
 {
 
+    private $configurationFactory;
+
+    public function setUp() {
+        $this->configurationFactory = new ConfigurationFactory;
+    }
+
     public function testCreateMediaTypeConfiguration()
     {
         $priorities = ['text/html'];
-        $c = ConfigurationFactory::create('accept', $priorities);
+        $c = $this->configurationFactory->create('accept', $priorities);
 
         $this->assertSame('accept', $c->getHeaderName());
         $this->assertInstanceOf('\Negotiation\Negotiator', $c->getNegotiator());
@@ -28,7 +34,7 @@ class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateLanguageConfiguration()
     {
-        $c = ConfigurationFactory::create('accept-language', ['en']);
+        $c = $this->configurationFactory->create('accept-language', ['en']);
 
         $this->assertInstanceOf('\Negotiation\LanguageNegotiator', $c->getNegotiator());
         $this->assertInstanceOf('\Negotiation\AcceptLanguage', $c->createDefaultAccept());
@@ -36,7 +42,7 @@ class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateEncodingConfiguration()
     {
-        $c = ConfigurationFactory::create('accept-encoding', ['gzip']);
+        $c = $this->configurationFactory->create('accept-encoding', ['gzip']);
 
         $this->assertInstanceOf('\Negotiation\EncodingNegotiator', $c->getNegotiator());
         $this->assertInstanceOf('\Negotiation\AcceptEncoding', $c->createDefaultAccept());
@@ -44,7 +50,7 @@ class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
 
     public function testCreateCharsetConfiguration()
     {
-        $c = ConfigurationFactory::create('accept-charset', ['utf-8']);
+        $c = $this->configurationFactory->create('accept-charset', ['utf-8']);
 
         $this->assertInstanceOf('\Negotiation\CharsetNegotiator', $c->getNegotiator());
         $this->assertInstanceOf('\Negotiation\AcceptCharset', $c->createDefaultAccept());
@@ -55,7 +61,7 @@ class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidConfiguration()
     {
-        $c = ConfigurationFactory::create('accept-unknown123', ['prio']);
+        $c = $this->configurationFactory->create('accept-unknown123', ['prio']);
     }
 
 }

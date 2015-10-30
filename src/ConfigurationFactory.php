@@ -17,10 +17,6 @@ use Negotiation\AcceptCharset;
 class ConfigurationFactory
 {
 
-    private function __construct()
-    {
-    }
-
     /**
      * Create an instance of Configuration.
      *
@@ -29,10 +25,10 @@ class ConfigurationFactory
      *                                          priority (first has highest)
      * @return Configuration
      */
-    public static function create($headerName, array $priorities)
+    public function create($headerName, array $priorities)
     {
-        $negotiator = self::createNegotiator($headerName);
-        $acceptFactory = self::createAcceptFactory($headerName);
+        $negotiator = $this->createNegotiator($headerName);
+        $acceptFactory = $this->createAcceptFactory($headerName);
 
         $c = new Configuration;
         $c->setHeaderName($headerName);
@@ -42,7 +38,7 @@ class ConfigurationFactory
         return $c;
     }
 
-    private static function createNegotiator($headerName)
+    private function createNegotiator($headerName)
     {
         switch($headerName) {
             case 'accept':
@@ -58,7 +54,7 @@ class ConfigurationFactory
         }
     }
 
-    private static function createAcceptFactory($headerName)
+    private function createAcceptFactory($headerName)
     {
         switch($headerName) {
             case 'accept':
