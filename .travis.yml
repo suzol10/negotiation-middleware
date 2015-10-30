@@ -6,6 +6,6 @@ php:
   - hhvm
 install:
   - composer install --quiet
-script: phpunit -c phpunit.xml --coverage-text
+script: vendor/bin/phpunit -c phpunit.xml --coverage-text
 after_success:
-  - coveralls
+  - php vendor/bin/coveralls
