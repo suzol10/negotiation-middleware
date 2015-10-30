@@ -78,7 +78,7 @@ class HeaderNegotiator
         try {
             // returns negotiation result or null
             return $negotiator->getBest($headerLine, $priorities);
-        } catch(RuntimeException $e) {
+        } catch (RuntimeException $e) {
             throw new NegotiationException('negotiator error', $e);
         }
     }
