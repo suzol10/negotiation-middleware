@@ -7,3 +7,5 @@ php:
 install:
   - composer install --quiet
 script: phpunit -c phpunit.xml --coverage-text
+after_success:
+  - coveralls
