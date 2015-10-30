@@ -3,6 +3,7 @@
 [![Software License][ico-license]][license]
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-coverage]][link-coverage]
+[![Codacy Badge](https://api.codacy.com/project/badge/50c7a287c93644bda8bec08bce5e817d)](https://www.codacy.com/app/gofabian/negotiation-middleware)
 
 [link-travis]: https://travis-ci.org/gofabian/negotiation-middleware
 [link-coverage]: https://coveralls.io/github/gofabian/negotiation-middleware?branch=master
