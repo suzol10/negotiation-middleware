@@ -40,7 +40,8 @@ Composer fetches all dependencies automatically. The Negotiation Middleware uses
 
 - PHP 5.4+
 - PSR-7
-- willdurand/negotiation 2.0.0-alpha1
+- willdurand/negotiation 2.0.1
+- recommended: slim/slim 3.x
 
 ## Usage
 The first example describes how to use the Slim framework in combination with the Negotiation Middleware. The following examples are less detailed and bring specific aspects into focus.
