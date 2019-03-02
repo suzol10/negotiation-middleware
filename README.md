@@ -25,7 +25,7 @@ This library is a [middleware][] for the [Slim framework 3][slim] but may be use
 [psr7]:        http://www.php-fig.org/psr/psr-7/             "PSR-7 - HTTP message interfaces"
 [negotiation]:  https://github.com/willdurand/Negotiation   "Negotiation library by William Durand"
 
-##Installation
+## Installation
 The recommended way to install the Negotiation Middleware is using [Composer][composer]:
 
 [composer]: https://getcomposer.org/  "Composer - Dependency Manager for PHP"
