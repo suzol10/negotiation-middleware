@@ -38,9 +38,9 @@ Composer fetches all dependencies automatically. The Negotiation Middleware uses
 
 [kiss]: https://en.wikipedia.org/wiki/KISS_principle  "Keep it simple, stupid"
 
-- PHP 5.4+
+- PHP 7.3+
 - PSR-7
-- willdurand/negotiation 2.0.1
+- willdurand/negotiation 3.x
 - recommended: slim/slim 3.x
 
 ## Usage
