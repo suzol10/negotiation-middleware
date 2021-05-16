@@ -13,17 +13,18 @@ name: default
 
 steps:
 - name: version
-  image: composer:1.10.15
+  image: gofabian/php-negotiation-middleware
   commands:
   - php -version
+  - composer --version
 
 - name: install
-  image: composer:1.10.15
+  image: gofabian/php-negotiation-middleware
   commands:
   - rm composer.lock
   - composer install
 
 - name: test
-  image: composer:1.10.15
+  image: gofabian/php-negotiation-middleware
   commands:
   - composer test
