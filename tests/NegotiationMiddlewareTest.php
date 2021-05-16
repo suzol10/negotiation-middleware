@@ -1,20 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 namespace Gofabian\Negotiation;
 
-use PHPUnit_Framework_TestCase;
-use Psr\Http\Message\ServerRequestInterface;
 use Negotiation\Accept;
 use Negotiation\AcceptLanguage;
 use Negotiation\AcceptEncoding;
 use Negotiation\AcceptCharset;
 
-class NegotiationMiddlewareTest extends PHPUnit_Framework_TestCase
+use Psr\Http\Message\ServerRequestInterface;
+use PHPUnit\Framework\TestCase;
+
+class NegotiationMiddlewareTest extends TestCase
 {
 
     private $request;
     private $response;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->request = new TestRequest;
         $this->response = new TestResponse;

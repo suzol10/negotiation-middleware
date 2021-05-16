@@ -16,13 +16,13 @@
     },
 
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=7.3",
         "psr/http-message": "^1.0",
         "willdurand/negotiation": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8",
-        "satooshi/php-coveralls": "0.6.1"
+        "phpunit/phpunit": "^9.5",
+        "php-coveralls/php-coveralls": "^2.4.3"
     },
     "suggest": {
         "slim/slim": "The negotiation middleware is compatible to Slim 3.x"
@@ -40,6 +40,6 @@
     },
 
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "XDEBUG_MODE=coverage vendor/bin/phpunit --coverage-text"
     }
 }

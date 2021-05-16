@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 namespace Gofabian\Negotiation;
 
-use PHPUnit_Framework_TestCase;
 use Negotiation\Accept;
 use Negotiation\AcceptLanguage;
 use Negotiation\AcceptEncoding;
 use Negotiation\AcceptCharset;
 
-class AcceptProviderTest extends PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class AcceptProviderTest extends TestCase
 {
 
     const MEDIA_TYPE = 'text/html';
@@ -20,7 +21,7 @@ class AcceptProviderTest extends PHPUnit_Framework_TestCase
     private $acceptEncoding;
     private $acceptCharset;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->accept = new Accept(self::MEDIA_TYPE);
         $this->acceptLanguage = new AcceptLanguage(self::LANGUAGE);

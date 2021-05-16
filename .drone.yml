@@ -1,0 +1,30 @@
+---
+#
+# Local build pipeline (Drone CI syntax)
+# Usage:
+# - Run all steps: `drone exec`
+# - Run specific steps: `drone exec --include version`
+# - Continue at specific step: `drone exec --resume-at version`
+# 
+
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: version
+  image: gofabian/php-negotiation-middleware
+  commands:
+  - php -version
+  - composer --version
+
+- name: install
+  image: gofabian/php-negotiation-middleware
+  commands:
+  - rm composer.lock
+  - composer install
+
+- name: test
+  image: gofabian/php-negotiation-middleware
+  commands:
+  - composer test

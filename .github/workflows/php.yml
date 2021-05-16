@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        php-versions: ['7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
 
@@ -47,4 +47,9 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Run test suite
-      run: vendor/bin/phpunit -c phpunit.xml --coverage-text
+      run: composer test
+
+    - name: Coveralls
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: vendor/bin/php-coveralls --coverage_clover=build/logs/clover.xml -v

@@ -1,29 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 namespace Gofabian\Negotiation;
 
-use RuntimeException;
-use PHPUnit_Framework_TestCase;
 use Negotiation\AcceptCharset;
 use Negotiation\Negotiator;
 
-class HeaderNegotiatorTest extends PHPUnit_Framework_TestCase
+use RuntimeException;
+use PHPUnit\Framework\TestCase;
+
+class HeaderNegotiatorTest extends TestCase
 {
 
     private $negotiator;
     private $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->negotiator = new HeaderNegotiator;
         $this->request = new TestRequest;
     }
 
 
-    /**
-     * @expectedException  \Gofabian\Negotiation\NegotiationException
-     */
     public function testEmptyHeaderThrowsException()
     {
+        $this->expectException(NegotiationException::class);
+
         $conf = $this->createConfiguration('accept-type');
         $this->request->withHeader('accept-type', '');
 
@@ -50,14 +50,13 @@ class HeaderNegotiatorTest extends PHPUnit_Framework_TestCase
         $this->verifyNegotiation($conf, false, 'text/html');
     }
 
-    /**
-     * @expectedException           \Gofabian\Negotiation\NegotiationException
-     * @expectedExceptionMessage    negotiator error
-     */
     public function testNegotiationError()
     {
+        $this->expectException(NegotiationException::class);
+        $this->expectExceptionMessage('negotiator error');
+
         $conf = $this->createConfiguration('accept', ['gogogo']);
-        $n = $this->getMock('\Negotiation\Negotiator');
+        $n = $this->createMock('\Negotiation\Negotiator');
         $n->method('getBest')
             ->will($this->throwException(new RuntimeException));
         $conf->setNegotiator($n);
