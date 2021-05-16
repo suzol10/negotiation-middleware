@@ -1,19 +1,8 @@
 # Negotiation Middleware
 
-[![Software License][ico-license]][license]
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-coverage]][link-coverage]
-[![Codacy Badge](https://api.codacy.com/project/badge/50c7a287c93644bda8bec08bce5e817d)](https://www.codacy.com/app/gofabian/negotiation-middleware)
-
-[link-travis]: https://travis-ci.org/gofabian/negotiation-middleware
-[link-coverage]: https://coveralls.io/github/gofabian/negotiation-middleware?branch=master
-
-[ico-version]: https://img.shields.io/packagist/v/gofabian/negotiation-middleware.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/gofabian/negotiation-middleware/master.svg?style=flat-square
-[ico-coverage]: https://coveralls.io/repos/gofabian/negotiation-middleware/badge.svg?branch=master&service=github
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/gofabian/negotiation-middleware.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/gofabian/negotiation-middleware.svg?style=flat-square
+[![Build Status](https://img.shields.io/github/workflow/status/gofabian/negotiation-middleware/build?style=flat-square)](https://github.com/gofabian/negotiation-middleware/actions/workflows/php.yml)
+[![Coverage Status](https://coveralls.io/repos/gofabian/negotiation-middleware/badge.svg?branch=master&service=githubage)](https://coveralls.io/github/gofabian/negotiation-middleware?branch=master)
+[![Downloads](https://img.shields.io/packagist/dt/gofabian/negotiation-middleware.svg?style=flat-square)](https://packagist.org/packages/gofabian/negotiation-middleware/stats)
 
 
 The **Negotiation Middleware** is a PHP library that negotiates accept headers of HTTP requests. The middleware chooses the most fitting options by looking at the accepted values of client and server. It supports the headers *accept*, *accept-language*, *accept-encoding* and *accept-charset*.
