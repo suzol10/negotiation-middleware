@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 namespace Gofabian\Negotiation;
 
-use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
 use Negotiation\Negotiator;
 use Negotiation\LanguageNegotiator;
 use Negotiation\EncodingNegotiator;
@@ -12,12 +10,15 @@ use Negotiation\AcceptLanguage;
 use Negotiation\AcceptEncoding;
 use Negotiation\AcceptCharset;
 
-class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+
+class ConfigurationFactoryTest extends TestCase
 {
 
     private $configurationFactory;
 
-    public function setUp() {
+    public function setUp(): void {
         $this->configurationFactory = new ConfigurationFactory;
     }
 
@@ -56,11 +57,9 @@ class ConfigurationFactoryTest extends PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Negotiation\AcceptCharset', $c->createDefaultAccept());
     }
 
-    /**
-     * @expectedException   \InvalidArgumentException
-     */
     public function testCreateInvalidConfiguration()
     {
+        $this->expectException(InvalidArgumentException::class);
         $c = $this->configurationFactory->create('accept-unknown123', ['prio']);
     }
 

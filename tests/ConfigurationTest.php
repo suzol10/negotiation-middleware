@@ -1,13 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 namespace Gofabian\Negotiation;
 
-use InvalidArgumentException;
-use PHPUnit_Framework_TestCase;
 use Negotiation\LanguageNegotiator;
 use Negotiation\Negotiator;
 use Negotiation\AcceptCharset;
 
-class ConfigurationTest extends PHPUnit_Framework_TestCase
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+
+class ConfigurationTest extends TestCase
 {
 
     function testGetters()
@@ -40,11 +41,10 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
         $this->assertSame('default', $defaultAccept->getValue());
     }
 
-    /**
-     * @expectedException   \InvalidArgumentException
-     */
     function testEmptyPriorities()
     {
+        $this->expectException(InvalidArgumentException::class);
+
         $c = new Configuration();
         $c->setPriorities([]);
     }

@@ -16,9 +16,11 @@ steps:
   image: composer:1.10.15
   commands:
   - php -version
+
 - name: install
   image: composer:1.10.15
   commands:
+  - rm composer.lock
   - composer install
 
 - name: test
