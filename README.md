@@ -1,16 +1,16 @@
 # Negotiation Middleware
 
 [![Software License][ico-license]][license]
-[![Build Status][ico-travis]][link-travis]
+[![Build Status][ico-github-actions]][link-github-actions]
 [![Coverage Status][ico-coverage]][link-coverage]
 [![Codacy Badge](https://api.codacy.com/project/badge/50c7a287c93644bda8bec08bce5e817d)](https://www.codacy.com/app/gofabian/negotiation-middleware)
 
-[link-travis]: https://travis-ci.org/gofabian/negotiation-middleware
+[link-github-actions]: ![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
 [link-coverage]: https://coveralls.io/github/gofabian/negotiation-middleware?branch=master
 
 [ico-version]: https://img.shields.io/packagist/v/gofabian/negotiation-middleware.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/gofabian/negotiation-middleware/master.svg?style=flat-square
+[ico-github-actions]: https://img.shields.io/github/workflow/status/gofabian/negotiation-middleware/build?style=flat-square
 [ico-coverage]: https://coveralls.io/repos/gofabian/negotiation-middleware/badge.svg?branch=master&service=github
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/gofabian/negotiation-middleware.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/gofabian/negotiation-middleware.svg?style=flat-square
