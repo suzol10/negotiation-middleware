@@ -3,8 +3,10 @@ namespace Gofabian\Negotiation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Negotiation\AbstractNegotiator;
 use Negotiation\BaseAccept;
+use Slim\Exception\HttpException;
 
 /**
  * The NegotiationMiddleware negotiates media type, language, encoding and
@@ -65,20 +67,24 @@ class NegotiationMiddleware
      * negotiation result to the request or respond with 406 "Not Acceptable".
      *
      * @param $request      ServerRequestInterface  PSR-7 request (with accept headers)
-     * @param $response     ResponseInterface       PSR-7 response
-     * @param $next         callable                the next middleware
      * @return              ResponseInterface       PSR-7 response
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next)
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
             $acceptProvider = $this->negotiateRequest($request);
         } catch (NegotiationException $e) {
-            return $response->withStatus(406);
+//            return $response->withStatus(406);
+            throw new HttpException(
+                $request,
+                'Not Acceptable',
+                406,
+                $e
+            );
         }
 
         $request = $request->withAttribute($this->attributeName, $acceptProvider);
-        return $next($request, $response);
+        return $handler->handle($request);
     }
 
     /**
